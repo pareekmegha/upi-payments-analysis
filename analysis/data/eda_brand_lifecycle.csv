@@ -1,0 +1,144 @@
+brand,first,last,months,total_vol,active_now
+PhonePe,2020-06-01,2026-09-01,76,395331.5,True
+Google Pay,2020-06-01,2026-09-01,76,297914.4,True
+Paytm,2020-06-01,2026-09-01,76,77679.5,True
+Navi,2023-09-01,2026-09-01,37,13952.8,True
+Axis Bank,2020-06-01,2026-09-01,76,6375.7,True
+super.money,2024-06-01,2026-09-01,28,6297.6,True
+Cred,2020-06-01,2026-09-01,76,5851.0,True
+Amazon Pay,2020-06-01,2026-09-01,76,5356.5,True
+BHIM,2020-06-01,2026-09-01,76,4369.2,True
+FamPay,2022-10-01,2026-09-01,48,4018.7,True
+ICICI Bank,2020-06-01,2026-09-01,76,3134.2,True
+WhatsApp,2020-06-01,2026-09-01,76,3037.5,True
+Kotak Mahindra Bank,2020-06-01,2026-09-01,76,2805.7,True
+Yes Bank,2020-06-01,2026-09-01,76,2647.8,True
+HDFC Bank,2020-06-01,2026-09-01,76,2199.7,True
+Mobikwik,2020-06-01,2026-09-01,76,1416.9,True
+Slice,2022-11-01,2026-09-01,46,911.9,True
+Airtel Payments Bank,2020-06-01,2026-09-01,76,888.4,True
+IDFC First Bank,2020-06-01,2026-09-01,76,842.6,True
+State Bank of India,2020-06-01,2026-09-01,76,634.8,True
+India Post Payments Bank,2020-06-01,2026-09-01,76,575.7,True
+Bajaj Finserv,2020-06-01,2026-09-01,76,566.0,True
+Groww,2022-03-01,2026-09-01,54,479.6,True
+Samsung Pay,2020-06-01,2026-09-01,76,448.8,True
+POP UPI,2024-06-01,2026-09-01,28,406.4,True
+Federal Bank,2020-06-01,2026-09-01,76,316.0,True
+Jupiter,2021-07-01,2026-09-01,63,258.0,True
+RBL Bank,2020-06-01,2026-09-01,76,234.8,True
+Jio Payments Bank,2020-06-01,2026-09-01,76,197.1,True
+Deutsche Bank,2020-06-01,2026-09-01,76,182.3,True
+Flipkart,2024-02-01,2026-09-01,32,160.9,True
+Canara Bank,2020-06-01,2026-09-01,76,147.5,True
+Unity Small Finance Bank,2025-04-01,2026-09-01,18,112.7,True
+Punjab National Bank,2020-06-01,2026-09-01,76,100.9,True
+IndusInd Bank,2020-06-01,2026-09-01,75,96.3,True
+Bank of Baroda,2020-06-01,2026-09-01,76,89.6,True
+KreditBee,2025-09-01,2026-09-01,13,87.5,True
+Jammu and Kashmir Bank,2021-12-01,2026-09-01,39,67.5,True
+Kiwi,2023-06-01,2026-09-01,39,64.0,True
+Timepay,2023-11-01,2026-09-01,34,61.5,True
+OmniCard,2023-04-01,2026-09-01,42,59.5,True
+Standard Chartered,2020-06-01,2026-09-01,76,59.4,True
+Bharat Pe,2024-09-01,2026-09-01,25,57.4,True
+Indian Bank,2020-06-01,2026-09-01,76,56.2,True
+Ind Money,2024-12-01,2026-09-01,22,54.8,True
+Union Bank of India,2020-06-01,2026-09-01,76,53.1,True
+Fi Money,2023-12-01,2026-04-01,21,51.6,False
+Money View,2024-11-01,2026-09-01,23,49.0,True
+DBS Digibank,2020-06-01,2026-09-01,76,43.1,True
+AU Small Finance Bank,2020-12-01,2026-09-01,70,38.1,True
+Central Bank of India,2020-06-01,2026-09-01,76,37.0,True
+Shriram One,2023-07-01,2026-09-01,39,36.9,True
+Suryoday Small Finance Bank,2023-08-01,2026-09-01,29,36.2,True
+HSBC,2020-06-01,2026-09-01,76,35.8,True
+South Indian Bank,2020-06-01,2026-09-01,76,30.1,True
+Digikhata,2023-08-01,2026-09-01,38,29.0,True
+NSDL Payments Bank,2021-05-01,2026-09-01,63,28.0,True
+Ultracash,2020-06-01,2026-06-01,72,27.8,False
+Aditya Birla Capital Digital,2024-05-01,2026-09-01,29,23.7,True
+UCO Bank,2020-06-01,2026-09-01,76,22.6,True
+Fino Payments Bank,2020-08-01,2026-09-01,74,22.0,True
+Karnataka Bank,2020-06-01,2026-09-01,76,21.3,True
+One Card,2024-09-01,2026-09-01,25,15.3,True
+Bank of India,2021-04-01,2026-09-01,66,13.6,True
+Salary Se,2024-09-01,2026-09-01,25,11.6,True
+Kredit.Pe,2024-11-01,2026-09-01,23,11.6,True
+Freecharge,2020-06-01,2024-02-01,9,9.7,False
+MI Pay,2020-06-01,2022-09-01,28,9.5,False
+ESAF Small Finance Bank,2024-10-01,2026-03-01,18,9.5,False
+Cointab,2020-06-01,2023-05-01,36,8.2,False
+Rapipay,2024-07-01,2026-09-01,27,7.9,True
+Jar,2025-07-01,2026-09-01,15,7.8,True
+Tata Neu,2022-04-01,2025-05-01,38,7.2,False
+YuvaPay,2021-02-01,2022-07-01,18,6.8,False
+Spice Money,2024-11-01,2026-09-01,23,6.8,True
+IDBI Bank,2020-06-01,2026-09-01,75,6.5,True
+Indian Overseas Bank,2022-03-01,2026-09-01,55,6.5,True
+Tata Pay,2025-06-01,2026-09-01,16,6.4,True
+Freo,2024-09-01,2026-06-01,22,5.7,False
+Dhani,2023-04-01,2026-09-01,41,5.3,True
+Karur Vysya Bank,2020-06-01,2026-09-01,76,4.6,True
+Tamilnad Mercantile Bank,2022-04-01,2026-09-01,54,4.6,True
+Citi Bank,2020-06-01,2024-09-01,51,4.5,False
+City Union Bank,2021-07-01,2026-09-01,63,4.4,True
+True Balance,2024-09-01,2026-09-01,25,4.0,True
+Obopay,2025-04-01,2026-09-01,18,3.8,True
+Rio Money,2026-07-01,2026-09-01,3,3.6,True
+Bank of Maharashtra,2020-06-01,2026-09-01,69,3.5,True
+Fave,2022-03-01,2026-09-01,34,3.4,True
+MakeMyTrip,2020-06-01,2024-05-01,47,3.2,False
+CBDC,2023-11-01,2024-02-01,4,2.8,False
+Saathi by PayNearBy,2025-12-01,2026-09-01,10,2.2,True
+Equitas Small Finance Bank,2022-06-01,2026-09-01,45,1.7,True
+Scapia,2026-04-01,2026-09-01,6,1.6,True
+Allahabad Bank,2020-06-01,2024-09-01,47,1.6,False
+CheQ,2024-02-01,2026-09-01,20,1.5,True
+Oxymoney,2025-11-01,2026-01-01,3,1.5,False
+Punjab & Sind Bank,2020-06-01,2026-09-01,63,1.5,True
+Niyo,2023-06-01,2025-09-01,21,1.5,False
+Payworld,2025-05-01,2026-09-01,17,1.2,True
+Truecaller,2020-06-01,2021-03-01,10,1.1,False
+Indie (IndusInd),2023-08-01,2024-01-01,5,0.7,False
+TwidPay,2025-10-01,2026-03-01,6,0.7,False
+Curie Money,2025-11-01,2026-09-01,11,0.7,True
+Finshell Pay,2021-09-01,2022-06-01,10,0.6,False
+GOAXB,2023-09-01,2023-09-01,1,0.6,False
+Eroute,2023-01-01,2023-03-01,3,0.5,False
+LXME,2025-11-01,2026-09-01,11,0.5,True
+Utkarsh Small Finance Bank,2022-02-01,2025-10-01,25,0.5,False
+LivQuik,2023-03-01,2026-09-01,7,0.5,True
+Dena Bank,2020-06-01,2022-03-01,22,0.4,False
+SnapMint,2026-06-01,2026-09-01,4,0.4,True
+Genwise,2024-11-01,2025-04-01,6,0.4,False
+ZET,2026-02-01,2026-09-01,8,0.3,True
+Andhra Bank,2020-06-01,2022-11-01,9,0.3,False
+Janata Sahakari Bank,2020-06-01,2023-03-01,26,0.3,False
+Dhanlaxmi Bank,2021-09-01,2023-09-01,24,0.2,False
+Oriental Bank of Commerce,2020-06-01,2020-11-01,6,0.2,False
+Pine Labs,2023-04-01,2023-06-01,3,0.2,False
+United Bank of India,2020-06-01,2020-12-01,7,0.2,False
+GoIbibo,2021-09-01,2023-09-01,12,0.1,False
+SuperPay,2022-03-01,2022-04-01,2,0.1,False
+Bandhan Bank,2022-07-01,2023-08-01,12,0.1,False
+TJSB Bank,2020-06-01,2022-11-01,12,0.1,False
+Jummp,2026-06-01,2026-07-01,2,0.1,False
+Unimoni,2026-07-01,2026-09-01,3,0.1,True
+RealMe,2020-07-01,2021-08-01,10,0.1,False
+Transerv,2023-01-01,2023-03-01,3,0.1,False
+Khalijeb,2020-08-01,2021-01-01,6,0.1,False
+Novio,2026-07-01,2026-09-01,3,0.1,True
+Vijaya Bank,2020-06-01,2020-09-01,4,0.1,False
+Corporation Bank,2020-06-01,2020-10-01,5,0.0,False
+Slash,2022-11-01,2023-04-01,5,0.0,False
+Other Bank,2021-07-01,2021-07-01,1,0.0,False
+Zomato,2023-05-01,2023-07-01,3,0.0,False
+Stashfin,2026-07-01,2026-07-01,1,0.0,False
+REVOLUT,2026-09-01,2026-09-01,1,0.0,True
+ENKASH,2026-09-01,2026-09-01,1,0.0,True
+Mufinpay,2026-09-01,2026-09-01,1,0.0,True
+Hero Fincorp,2026-07-01,2026-07-01,1,0.0,False
+Rediff,2026-05-01,2026-05-01,1,0.0,False
+Bank of America,2023-03-01,2023-03-01,1,0.0,False
+ZOICICI,2023-08-01,2023-08-01,1,0.0,False

@@ -1,0 +1,15 @@
+sample,series,transform,adf_p,kpss_p,verdict,lb12_p,lb24_p,arch_p,jb_p,resid_lag12_acf,var_ratio_halves,trend_strength,seasonal_strength
+full (2019-04 ->),log volume/day,log level,0.010359142285821741,0.01,conflict (trend/break?),,,,,,,,
+full (2019-04 ->),log volume/day,d log (growth),0.9514636963767361,0.018323439848486025,NON-stationary,,,,,,,,
+full (2019-04 ->),log volume/day,"d log, seasonally differenced (12)",0.03366276396690183,0.08726203228262304,stationary,,,,,,,,
+post-COVID (2021-06 ->),log volume/day,log level,4.814442470211696e-08,0.01,conflict (trend/break?),,,,,,,,
+post-COVID (2021-06 ->),log volume/day,d log (growth),0.08414225690340449,0.01,NON-stationary,,,,,,,,
+post-COVID (2021-06 ->),log volume/day,"d log, seasonally differenced (12)",0.054589198502815545,0.04017810063878313,NON-stationary,,,,,,,,
+full (2019-04 ->),log volume/day,"ARIMA(0,1,1)",,,,0.23846735713473002,0.12844881136184988,9.535142185856687e-08,6.006247861379781e-16,-0.0201034183550834,11.937887496800949,,
+post-COVID (2021-06 ->),log volume/day,"ARIMA(2,1,2)",,,,0.1960389542642135,0.1274069129573548,0.5243554319474968,0.002164949330173371,0.11316282797163331,2.1371892696398014,,
+full,log volume/day,STL,,,,,,,,,,0.9976473871111415,0.38357364913863934
+full,log value/day,STL,,,,,,,,,,0.9950580551930386,0.08973059716176945
+full,avg ticket,STL,,,,,,,,,,0.9094728366732482,0.2687370550180982
+full,P2M vol share,STL,,,,,,,,,,0.916133225082055,0.0
+full,top-2 share,STL,,,,,,,,,,0.8802745131366325,0.14119342179535055
+full,log banks live,STL,,,,,,,,,,0.9943496175096378,0.0

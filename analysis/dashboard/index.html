@@ -1,0 +1,529 @@
+<meta name="dash-one-writer">
+<style>
+/* Layout: one narrow reading column, headline sentence first, six figures, then one section per question the data answers. */
+.u-page { display: flex; flex-direction: column; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+.u-page h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 34px; line-height: 1.1; margin: 0; letter-spacing: -0.01em; }
+.u-page h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 4px; text-wrap: balance; }
+.u-page h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0 0 6px; }
+.u-page p { margin: 0; }
+.u-lede { font-size: 17px; line-height: 1.5; max-width: 72ch; color: var(--color-fg); }
+.u-lede b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.u-muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.45; max-width: 78ch; }
+.u-quiet { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: 24px 0; }
+.u-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--cds-gap-md); }
+.u-kpi { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.u-kpi .l { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.u-kpi .v { font-family: var(--font-anthropic-serif); font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; }
+.u-kpi .v small { font-family: var(--font-anthropic-sans); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-left: 3px; }
+.u-kpi .s { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.4; font-variant-numeric: tabular-nums; }
+.u-sec { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+.u-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--cds-gap-lg); }
+.u-chartbox { min-width: 0; }
+.u-chart { min-height: 250px; position: relative; }
+.u-chart.tall { min-height: 320px; }
+.u-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 6px; font-size: var(--cds-font-size-caption); color: var(--cds-text-secondary); }
+.u-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.u-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.u-plot { position: relative; }
+.u-plot svg { display: block; overflow: visible; }
+.u-axis text, .u-tick { font-size: 11px; fill: var(--cds-text-secondary); font-family: var(--font-anthropic-sans); font-variant-numeric: tabular-nums; }
+.u-axis line.gr { stroke: var(--cds-chart-grid); stroke-width: 1; }
+.u-end { font-size: 11px; fill: var(--cds-text-secondary); }
+.u-rule { stroke: var(--cds-chart-reference); stroke-width: 1; }
+.u-dot { stroke: var(--color-bg); stroke-width: 2; }
+.u-ev { stroke: var(--cds-chart-reference); stroke-dasharray: 3 3; stroke-width: 1; }
+.u-tag circle { fill: var(--color-fg); }
+.u-tag text { fill: var(--color-bg); font-size: 10px; font-weight: 600; }
+.u-tag { cursor: default; }
+.u-div { stroke: var(--cds-chart-reference); stroke-dasharray: 4 3; }
+.u-divl { font-size: 11px; fill: var(--cds-text-secondary); }
+.u-hit { fill: transparent; touch-action: pan-y; }
+.u-tip { position: absolute; top: 8px; left: 0; opacity: 0; pointer-events: none; z-index: 5; max-width: 280px; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); color: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); padding: 8px 10px; border-radius: 8px; line-height: 1.35; }
+.u-tip-h { font-weight: 600; color: var(--color-fg); margin-bottom: 4px; }
+.u-tip-t { color: var(--color-fg); margin-bottom: 2px; }
+.u-tip-d { white-space: normal; }
+.u-tip-r { display: flex; align-items: center; gap: 6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.u-tip-r i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; flex: none; }
+.u-tip-r b { margin-left: auto; padding-left: 12px; color: var(--color-fg); font-weight: 500; }
+.u-tablewrap { overflow-x: auto; }
+.u-table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.u-table th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); border-bottom: 1px solid var(--color-border-line); padding: 6px 10px 6px 0; white-space: nowrap; }
+.u-table td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+.u-table td.num, .u-table th.num { text-align: right; padding-right: 14px; }
+.u-table td.wide { min-width: 260px; color: var(--cds-text-secondary); }
+.u-table td.nw { white-space: nowrap; padding-right: 16px; }
+.u-pill { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 11px; border: 1px solid var(--color-border-line); color: var(--cds-text-secondary); white-space: nowrap; }
+.u-pill.confirmed { border-color: var(--color-ok); color: var(--color-ok); }
+.u-pill.reported { border-color: var(--color-warn); color: var(--color-warn); }
+.u-ctl { display: flex; align-items: center; gap: 10px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.u-notes { border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-lg); }
+.u-notes summary { cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+.u-notes ul { margin: 10px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: var(--cds-font-size-caption); color: var(--cds-text-secondary); line-height: 1.5; max-width: 80ch; }
+[data-dash-source-state=refreshing] { opacity: .55; }
+</style>
+
+<div class="u-page">
+
+  <header class="u-sec">
+    <h1>UPI Market Dashboard</h1>
+    <p class="u-lede">In <b data-draw="val" data-source="latest" data-field="month_label" data-row="0" data-fmt="text">—</b>, UPI handled <b data-draw="val" data-source="latest" data-field="vol_bn" data-row="0" data-fmt="n1">—</b> billion transactions worth ₹<b data-draw="val" data-source="latest" data-field="val_lc" data-row="0" data-fmt="n1">—</b> lakh crore. Volume was <b data-draw="val" data-source="latest" data-field="dir" data-row="0" data-fmt="text">—</b> <b data-draw="val" data-source="latest" data-field="yoy_abs" data-row="0" data-fmt="n1">—</b>% on a year earlier, against <b data-draw="val" data-source="latest" data-field="yoy_pct_2y" data-row="0" data-fmt="n1">—</b>% a year earlier in <b data-draw="val" data-source="latest" data-field="label_2y" data-row="0" data-fmt="text">—</b>. PhonePe and Google Pay together handled <b data-draw="val" data-source="latest" data-field="top2_pct" data-row="0" data-fmt="n1">—</b>% of all UPI volume in <b data-draw="val" data-source="latest" data-field="app_month_label" data-row="0" data-fmt="text">—</b>.</p>
+    <p class="u-muted">Source: NPCI monthly UPI statistics, cleaned and analysed from April 2019 to October 2026. App data runs to September 2026.</p>
+  </header>
+
+  <section class="u-kpis" aria-label="Latest figures">
+    <div class="u-kpi">
+      <span class="l">Monthly volume</span>
+      <span class="v"><b data-draw="val" data-source="latest" data-field="vol_bn" data-row="0" data-fmt="n1">—</b><small>billion</small></span>
+      <span class="s">vs <b data-draw="val" data-source="latest" data-field="vol_bn_ya" data-row="0" data-fmt="n1">—</b> billion in <b data-draw="val" data-source="latest" data-field="ya_label" data-row="0" data-fmt="text">—</b></span>
+    </div>
+    <div class="u-kpi">
+      <span class="l">Monthly value</span>
+      <span class="v">₹<b data-draw="val" data-source="latest" data-field="val_lc" data-row="0" data-fmt="n1">—</b><small>lakh crore</small></span>
+      <span class="s">vs ₹<b data-draw="val" data-source="latest" data-field="val_lc_ya" data-row="0" data-fmt="n1">—</b> lakh crore a year earlier</span>
+    </div>
+    <div class="u-kpi">
+      <span class="l">Volume growth, year on year</span>
+      <span class="v"><b data-draw="val" data-source="latest" data-field="yoy_pct" data-row="0" data-fmt="n1">—</b><small>%</small></span>
+      <span class="s">vs <b data-draw="val" data-source="latest" data-field="yoy_pct_2y" data-row="0" data-fmt="n1">—</b>% two years earlier</span>
+    </div>
+    <div class="u-kpi">
+      <span class="l">Average ticket</span>
+      <span class="v">₹<b data-draw="val" data-source="latest" data-field="ticket" data-row="0" data-fmt="n0">—</b></span>
+      <span class="s"><b data-draw="val" data-source="latest" data-field="ticket_chg_pct" data-row="0" data-fmt="s1">—</b>% vs ₹<b data-draw="val" data-source="latest" data-field="ticket_ya" data-row="0" data-fmt="n0">—</b> a year earlier</span>
+    </div>
+    <div class="u-kpi">
+      <span class="l">Person-to-merchant share of volume</span>
+      <span class="v"><b data-draw="val" data-source="latest" data-field="p2m_pct" data-row="0" data-fmt="n1">—</b><small>%</small></span>
+      <span class="s">vs <b data-draw="val" data-source="latest" data-field="p2m_pct_ya" data-row="0" data-fmt="n1">—</b>% a year earlier</span>
+    </div>
+    <div class="u-kpi">
+      <span class="l">PhonePe + Google Pay share</span>
+      <span class="v"><b data-draw="val" data-source="latest" data-field="top2_pct" data-row="0" data-fmt="n1">—</b><small>%</small></span>
+      <span class="s">of volume; <b data-draw="val" data-source="latest" data-field="top2_pct_ya" data-row="0" data-fmt="n1">—</b>% a year earlier</span>
+    </div>
+  </section>
+
+  <section class="u-sec" id="growth">
+    <div>
+      <h2>Volume and year-on-year growth</h2>
+      <p class="u-muted">Monthly transactions in billions, and growth against the same month a year earlier. The 2021 growth spike comes from the COVID lockdown base, not from a surge.</p>
+    </div>
+    <div class="u-grid2">
+      <div class="u-chartbox"><h3>Transactions per month (billion)</h3><div class="u-chart" id="c-volume" data-draw="c-volume" data-source="master">—</div></div>
+      <div class="u-chartbox"><h3>Growth vs the same month a year earlier (%)</h3><div class="u-chart" id="c-yoy" data-draw="c-yoy" data-source="master">—</div></div>
+    </div>
+  </section>
+
+  <section class="u-sec" id="ticket">
+    <div>
+      <h2>Average ticket and the person-to-merchant share</h2>
+      <p class="u-muted">Average ticket is value divided by volume. Merchant payments are smaller than person-to-person transfers, so a rising merchant share pulls the average down even when each kind of payment is not shrinking. The ticket axis does not start at zero.</p>
+    </div>
+    <div class="u-grid2">
+      <div class="u-chartbox"><h3>Average ticket (₹)</h3><div class="u-chart" id="c-ticket" data-draw="c-ticket" data-source="master">—</div></div>
+      <div class="u-chartbox"><h3>Person-to-merchant share (%)</h3><div class="u-chart" id="c-p2m" data-draw="c-p2m" data-source="master">—</div></div>
+    </div>
+  </section>
+
+  <section class="u-sec" id="apps">
+    <div>
+      <h2>Share of UPI volume by app</h2>
+      <p class="u-muted">Each app's share of total UPI volume, the same basis NPCI uses. Paytm includes Paytm Payments Bank before February 2024. Lettered markers show dated events, listed in the table below; hover or tap one for details.</p>
+    </div>
+    <div class="u-chart tall" id="c-brands" data-draw="c-brands" data-source="brands events">—</div>
+  </section>
+
+  <section class="u-sec" id="forecast">
+    <div>
+      <h2>Volume forecast, next 12 months</h2>
+      <p class="u-muted">Median forecast with 80% and 95% ranges. The model assumes conditions stay as they are. It does not know about the 30% app-share cap (deadline 31 December 2026) or the merchant fee that started on 15 October 2026.</p>
+    </div>
+    <div class="u-chart tall" id="c-forecast" data-draw="c-forecast" data-source="master forecast">—</div>
+    <div class="u-tablewrap">
+      <table class="u-table" data-source="forecast" data-row-key="month">
+        <thead><tr>
+          <th data-field="month">Month</th>
+          <th class="num" data-field="vol_bn">Volume (billion)</th>
+          <th class="num" data-field="vol_bn_lo80">80% low</th>
+          <th class="num" data-field="vol_bn_hi80">80% high</th>
+          <th class="num" data-field="ticket">Avg ticket (₹)</th>
+          <th class="num" data-field="val_lc">Value (₹ lakh crore)</th>
+          <th class="num" data-field="yoy_pct">Volume vs year earlier (%)</th>
+        </tr></thead>
+        <tbody data-draw="t-forecast"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="u-sec" id="trust">
+    <div>
+      <h2>How accurate was the forecast method in a backtest</h2>
+      <p class="u-muted">Each model was refit on every past month from mid-2024 and scored on what happened next. Bars show the average absolute error as a share of actual volume; lower is better. Baselines are simple rules a model should beat. Bias is the average signed error: positive means the model over-forecast.</p>
+    </div>
+    <div class="u-ctl">
+      <label for="bt-h">Months ahead</label>
+      <select class="dash-select" id="bt-h" aria-label="Months ahead">
+        <option value="1">1</option>
+        <option value="3">3</option>
+        <option value="6">6</option>
+        <option value="12" selected>12</option>
+      </select>
+    </div>
+    <div class="u-chart" id="c-backtest" data-draw="btchart" data-source="backtest">—</div>
+  </section>
+
+  <section class="u-sec" id="events">
+    <div>
+      <h2>Dated events</h2>
+      <p class="u-muted">Regulatory and product events that line up with movements in the data. "Confirmed" means more than one outlet or an official release; "reported" means a single report or a secondary source. Funding rounds explain very little of the movement here.</p>
+    </div>
+    <div class="u-tablewrap">
+      <table class="u-table" data-source="events" data-row-key="tag">
+        <thead><tr>
+          <th data-field="tag">Key</th>
+          <th data-field="month">Month</th>
+          <th data-field="title">Event</th>
+          <th data-field="status">Status</th>
+          <th data-field="detail">What it did or what the data shows</th>
+        </tr></thead>
+        <tbody data-draw="t-events"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <details class="u-notes">
+    <summary>Definitions and caveats</summary>
+    <ul>
+      <li>Volume is transactions settled through NPCI's UPI system, in billions. Value is in ₹ lakh crore (1 lakh crore = ₹1 trillion). Average ticket is value divided by volume.</li>
+      <li>App shares divide each app's settled volume by total UPI volume. NPCI's own app table adds on-us transactions, which the headline total leaves out, so its figures run about 2% higher in 2021 to 2023.</li>
+      <li>Paytm Payments Bank (to January 2024) and Paytm (from February 2024) are separate legal entities. Here they are one line, because it is the same app.</li>
+      <li>The forecast for volume uses a damped-trend exponential smoothing model with monthly seasonality, trained on June 2021 onward. Ticket uses the same model without seasonality. Value is volume times ticket. Ranges come from simulation and treat volume and ticket errors as independent, so the value range is somewhat too narrow.</li>
+      <li>Only 65 months of post-COVID history exist, so forecasts beyond about six months are trend extrapolation, not predictions of particular months.</li>
+      <li>Figures for PhonePe and Google Pay value are missing at the source for February and March 2022, so app-level value is not shown.</li>
+    </ul>
+  </details>
+
+</div>
+
+<script>
+// Fixed references: the model whose forecast is shown, and which models count as simple baselines.
+const USED_MODEL = 'ETS damped + seasonal';
+const BASELINES = ['naive', 'drift (12m)', 'seasonal naive + YoY'];
+
+const P = d3.utcParse('%Y-%m-%d');
+const fM = d3.utcFormat('%b %Y');
+const fY = d3.utcFormat('%Y');
+const F = {n0: d3.format(',.0f'), n1: d3.format(',.1f'), n2: d3.format(',.2f'), s1: d3.format('+,.1f'), t0: d3.format('.0f'), t1: d3.format('.1f')};
+const col = (i) => dash.colors[i % dash.colors.length];
+const MUTED = 'var(--cds-chart-muted)';
+
+/* ---------- calculations ---------- */
+dash.calc('latest', {
+  title: 'Latest month against year-ago comparisons',
+  description: 'Latest headline figures, with the same month one and two years earlier, and the two largest apps in the latest app month.',
+  inputs: ['master', 'brands'],
+  fn: (master, brands) => {
+    const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const lab = (s) => mo[+s.slice(5, 7) - 1] + ' ' + s.slice(0, 4);
+    const shift = (s, n) => { const d = new Date(s + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() + n); return d.toISOString().slice(0, 10); };
+    const r1 = (v) => Math.round(v * 10) / 10;
+    const ms = master.slice().sort((a, b) => (a.month < b.month ? -1 : 1));
+    const L = ms[ms.length - 1];
+    const by = (s) => ms.find((r) => r.month === s);
+    const Y = by(shift(L.month, -12));
+    const Y2 = by(shift(L.month, -24));
+    const bm = brands.map((r) => r.month).sort().pop();
+    const share = (mon, name) => (brands.find((r) => r.month === mon && r.brand === name) || {share_pct: 0}).share_pct;
+    const bmy = shift(bm, -12);
+    return [{
+      month_label: lab(L.month), ya_label: lab(Y.month), label_2y: lab(Y2.month), app_month_label: lab(bm),
+      vol_bn: r1(L.vol_bn), vol_bn_ya: r1(Y.vol_bn), val_lc: r1(L.val_lc), val_lc_ya: r1(Y.val_lc),
+      yoy_pct: r1(L.vol_yoy_pct), yoy_abs: r1(Math.abs(L.vol_yoy_pct)), dir: L.vol_yoy_pct >= 0 ? 'up' : 'down', yoy_pct_2y: r1(Y2.vol_yoy_pct),
+      ticket: Math.round(L.avg_ticket), ticket_ya: Math.round(Y.avg_ticket), ticket_chg_pct: r1((L.avg_ticket / Y.avg_ticket - 1) * 100),
+      p2m_pct: r1(L.p2m_vol_pct), p2m_pct_ya: r1(Y.p2m_vol_pct),
+      top2_pct: r1(share(bm, 'PhonePe') + share(bm, 'Google Pay')), top2_pct_ya: r1(share(bmy, 'PhonePe') + share(bmy, 'Google Pay'))
+    }];
+  }
+});
+
+/* ---------- helpers ---------- */
+function gate(el, ids) {
+  const gs = ids.map((i) => dash.data(i));
+  const loading = gs.some((g) => g.status === 'loading');
+  el.classList.toggle('dash-skeleton', loading);
+  if (loading) { el.replaceChildren(); return null; }
+  const bad = gs.find((g) => g.status !== 'ok');
+  if (bad) {
+    const p = document.createElement('p');
+    p.className = 'u-quiet';
+    p.textContent = bad.status === 'connect' ? 'Waiting for access' : 'Failed to load';
+    el.replaceChildren(p);
+    return null;
+  }
+  return gs.map((g) => g.data);
+}
+function rowsOf(id) { const g = dash.data(id); return g.status === 'ok' ? g.data : null; }
+
+dash.draw('val', (el) => {
+  const g = dash.data(el.dataset.source);
+  if (g.status !== 'ok' || !g.data || !g.data.length) { el.textContent = '—'; return; }
+  const r = g.data[+(el.dataset.row || 0)];
+  const v = r ? r[el.dataset.field] : null;
+  if (v == null) { el.textContent = '—'; return; }
+  const f = el.dataset.fmt;
+  el.textContent = f && f !== 'text' && F[f] ? F[f](+v) : String(v);
+});
+
+function timeChart(el, cfg) {
+  el.replaceChildren();
+  const h = cfg.h || 250;
+  const w = Math.max(280, Math.floor(el.clientWidth) || 600);
+  const root = d3.select(el);
+  if (cfg.lines.length > 1 && cfg.legend !== false) {
+    const lg = root.append('div').attr('class', 'u-legend');
+    cfg.lines.filter((l) => !l.noLegend).forEach((l) => { const s = lg.append('span'); s.append('i').style('background', l.color); s.append('span').text(l.label); });
+  }
+  const wrap = root.append('div').attr('class', 'u-plot');
+  const svg = wrap.append('svg').attr('viewBox', `0 0 ${w} ${h}`).attr('width', '100%').attr('height', h).attr('role', 'img').attr('aria-label', cfg.aria);
+  const tip = wrap.append('div').attr('class', 'u-tip');
+  const pts = cfg.pts;
+
+  const yvals = cfg.lines.flatMap((l) => pts.map((d) => l.get(d)))
+    .concat((cfg.bands || []).flatMap((b) => pts.flatMap((d) => [b.lo(d), b.hi(d)]))).filter((v) => v != null);
+  const dom = cfg.yDomain || [d3.min(yvals), d3.max(yvals)];
+  const y = d3.scaleLinear(dom, [0, 1]).nice();
+  const yt = y.ticks(5);
+  const meas = (strs) => {
+    const t = svg.append('text').attr('class', 'u-tick').style('visibility', 'hidden');
+    let mx = 0;
+    strs.forEach((s) => { t.text(s); mx = Math.max(mx, t.node().getComputedTextLength()); });
+    t.remove();
+    return mx;
+  };
+  const endW = cfg.endLabels ? meas(cfg.lines.map((l) => l.label)) + 16 : 0;
+  const m = {t: cfg.markers ? 32 : 10, r: 10 + endW, b: 24, l: Math.ceil(meas(yt.map(cfg.yFmt))) + 10};
+  const pad = cfg.bars ? 15 * 864e5 : 0;
+  const x = d3.scaleUtc([new Date(+cfg.xDomain[0] - pad), new Date(+cfg.xDomain[1] + pad)], [m.l, w - m.r]);
+  y.range([h - m.b, m.t]);
+
+  const g = svg.append('g').attr('class', 'u-axis');
+  g.selectAll('line.gr').data(yt).join('line').attr('class', 'gr').attr('x1', m.l).attr('x2', w - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d));
+  g.selectAll('text.yl').data(yt).join('text').attr('class', 'yl').attr('x', m.l - 6).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(cfg.yFmt);
+  const xt = x.ticks(d3.utcYear.every(w < 520 ? 2 : 1));
+  g.selectAll('text.xl').data(xt).join('text').attr('class', 'xl').attr('x', (d) => x(d)).attr('y', h - 6).attr('text-anchor', 'middle').text(fY);
+
+  (cfg.bands || []).forEach((b) => {
+    svg.append('path').attr('d', d3.area().defined((d) => b.lo(d) != null).x((d) => x(d.t)).y0((d) => y(b.lo(d))).y1((d) => y(b.hi(d)))(pts))
+      .style('fill', b.color).style('opacity', b.opacity);
+  });
+  if (cfg.divider) {
+    const dx = x(cfg.divider);
+    svg.append('line').attr('class', 'u-div').attr('x1', dx).attr('x2', dx).attr('y1', m.t).attr('y2', h - m.b);
+    svg.append('text').attr('class', 'u-divl').attr('x', dx + 6).attr('y', m.t + 10).text(cfg.dividerLabel || '');
+  }
+  if (cfg.bars) {
+    const l0 = cfg.lines[0];
+    const bw = Math.max(1.5, (w - m.l - m.r) / pts.length - 1.5);
+    const base = y(Math.max(0, y.domain()[0]));
+    svg.append('g').selectAll('rect').data(pts.filter((d) => l0.get(d) != null)).join('rect')
+      .attr('x', (d) => x(d.t) - bw / 2).attr('width', bw).attr('y', (d) => y(l0.get(d))).attr('height', (d) => Math.max(0, base - y(l0.get(d))))
+      .attr('rx', 1).style('fill', l0.color);
+  } else {
+    cfg.lines.forEach((l) => {
+      svg.append('path').attr('fill', 'none').attr('stroke-width', 2).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round')
+        .attr('stroke-dasharray', l.dash || null).style('stroke', l.color)
+        .attr('d', d3.line().defined((d) => l.get(d) != null).x((d) => x(d.t)).y((d) => y(l.get(d)))(pts));
+      const last = pts.slice().reverse().find((d) => l.get(d) != null);
+      if (last && !l.noEnd) svg.append('circle').attr('r', 3.5).attr('cx', x(last.t)).attr('cy', y(l.get(last))).style('fill', l.color);
+    });
+  }
+  if (cfg.endLabels) {
+    const ends = cfg.lines.map((l) => {
+      const last = pts.slice().reverse().find((d) => l.get(d) != null);
+      return {l, y: y(l.get(last))};
+    }).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 13);
+    const over = ends[ends.length - 1].y - (h - m.b);
+    if (over > 0) ends.forEach((e) => { e.y -= over; });
+    ends.forEach((e) => {
+      svg.append('circle').attr('r', 3).attr('cx', w - m.r + 6).attr('cy', e.y).style('fill', e.l.color);
+      svg.append('text').attr('class', 'u-end').attr('x', w - m.r + 13).attr('y', e.y).attr('dy', '0.32em').text(e.l.label);
+    });
+  }
+
+  const rule = svg.append('line').attr('class', 'u-rule').attr('y1', m.t).attr('y2', h - m.b).style('opacity', 0);
+  const dots = cfg.bars ? [] : cfg.lines.map((l) => svg.append('circle').attr('r', 4).attr('class', 'u-dot').style('fill', l.color).style('opacity', 0));
+  const hide = () => { tip.style('opacity', 0); rule.style('opacity', 0); dots.forEach((d) => d.style('opacity', 0)); };
+  const place = (px) => {
+    const sc = (svg.node().clientWidth || w) / w;
+    const tw = tip.node().offsetWidth;
+    let left = px * sc + 12;
+    if (left + tw > wrap.node().clientWidth) left = px * sc - tw - 12;
+    tip.style('left', Math.max(0, left) + 'px').style('opacity', 1);
+  };
+  const bis = d3.bisector((d) => d.t).center;
+  svg.append('rect').attr('class', 'u-hit').attr('x', m.l).attr('y', m.t).attr('width', w - m.l - m.r).attr('height', h - m.t - m.b)
+    .on('pointermove pointerdown', (ev) => {
+      const px = d3.pointer(ev, svg.node())[0];
+      const d = pts[bis(pts, x.invert(px))];
+      let rows = cfg.tipRows ? cfg.tipRows(d) : cfg.lines.map((l) => ({label: l.label, color: l.color, v: l.get(d), fmt: l.fmt}));
+      rows = rows.filter((r) => r.v != null || r.text);
+      if (cfg.sort) rows.sort((a, b) => b.v - a.v);
+      tip.selectAll('*').remove();
+      tip.append('div').attr('class', 'u-tip-h').text(fM(d.t));
+      rows.forEach((r) => { const row = tip.append('div').attr('class', 'u-tip-r'); row.append('i').style('background', r.color); row.append('span').text(r.label); row.append('b').text(r.text != null ? r.text : r.fmt(r.v)); });
+      rule.attr('x1', x(d.t)).attr('x2', x(d.t)).style('opacity', 1);
+      cfg.lines.forEach((l, i) => { const v = l.get(d); if (dots[i]) dots[i].attr('cx', x(d.t)).attr('cy', v == null ? -9 : y(v)).style('opacity', v == null ? 0 : 1); });
+      place(x(d.t));
+    })
+    .on('pointerleave', hide);
+
+  (cfg.markers || []).forEach((ev) => {
+    const px = x(ev.t);
+    svg.append('line').attr('class', 'u-ev').attr('x1', px).attr('x2', px).attr('y1', m.t - 6).attr('y2', h - m.b);
+    const tg = svg.append('g').attr('class', 'u-tag').attr('transform', `translate(${px},${m.t - 18})`);
+    tg.append('circle').attr('r', 8);
+    tg.append('text').attr('dy', '0.35em').attr('text-anchor', 'middle').text(ev.tag);
+    tg.on('pointerenter pointermove pointerdown', () => {
+      tip.selectAll('*').remove();
+      tip.append('div').attr('class', 'u-tip-h').text(`${ev.tag} · ${fM(ev.t)}`);
+      tip.append('div').attr('class', 'u-tip-t').text(ev.title);
+      tip.append('div').attr('class', 'u-tip-d').text(ev.detail);
+      rule.style('opacity', 0); dots.forEach((d) => d.style('opacity', 0));
+      place(px);
+    }).on('pointerleave', hide);
+  });
+}
+
+/* ---------- charts from the monthly totals ---------- */
+function masterPts() { return rowsOf('master').slice().sort((a, b) => (a.month < b.month ? -1 : 1)).map((r) => Object.assign({t: P(r.month)}, r)); }
+
+dash.draw('c-volume', (el) => {
+  const g = gate(el, ['master']); if (!g) return;
+  const pts = masterPts();
+  timeChart(el, {pts, aria: 'Bar chart of monthly UPI transactions in billions, April 2019 to October 2026', bars: true, h: 250,
+    yDomain: [0, d3.max(pts, (d) => d.vol_bn)], yFmt: (v) => v, xDomain: [pts[0].t, pts[pts.length - 1].t],
+    lines: [{label: 'Transactions (billion)', color: col(0), get: (d) => d.vol_bn, fmt: (v) => F.n2(v) + ' billion'}]});
+});
+dash.draw('c-yoy', (el) => {
+  const g = gate(el, ['master']); if (!g) return;
+  const pts = masterPts();
+  timeChart(el, {pts, aria: 'Line chart of year-on-year growth in UPI volume and value, in percent', h: 250,
+    yDomain: [0, d3.max(pts, (d) => Math.max(d.vol_yoy_pct || 0, d.val_yoy_pct || 0))], yFmt: (v) => v + '%', xDomain: [pts[0].t, pts[pts.length - 1].t],
+    lines: [{label: 'Volume', color: col(0), get: (d) => d.vol_yoy_pct, fmt: (v) => F.n1(v) + '%'}, {label: 'Value', color: col(1), get: (d) => d.val_yoy_pct, fmt: (v) => F.n1(v) + '%'}]});
+});
+dash.draw('c-ticket', (el) => {
+  const g = gate(el, ['master']); if (!g) return;
+  const pts = masterPts();
+  timeChart(el, {pts, aria: 'Line chart of the average UPI transaction size in rupees', h: 250, yFmt: (v) => '₹' + F.n0(v), xDomain: [pts[0].t, pts[pts.length - 1].t],
+    lines: [{label: 'Average ticket', color: col(0), get: (d) => d.avg_ticket, fmt: (v) => '₹' + F.n0(v)}]});
+});
+dash.draw('c-p2m', (el) => {
+  const g = gate(el, ['master']); if (!g) return;
+  const pts = masterPts();
+  timeChart(el, {pts, aria: 'Line chart of the person-to-merchant share of UPI volume and value, in percent', h: 250,
+    yDomain: [0, 70], yFmt: (v) => v + '%', xDomain: [pts[0].t, pts[pts.length - 1].t],
+    lines: [{label: 'Share of volume', color: col(0), get: (d) => d.p2m_vol_pct, fmt: (v) => F.n1(v) + '%'}, {label: 'Share of value', color: col(1), get: (d) => d.p2m_val_pct, fmt: (v) => F.n1(v) + '%'}]});
+});
+
+/* ---------- app share ---------- */
+const BRANDS = ['PhonePe', 'Google Pay', 'Paytm', 'Navi', 'super.money', 'WhatsApp', 'All other'];
+dash.draw('c-brands', (el) => {
+  const g = gate(el, ['brands', 'events']); if (!g) return;
+  const byM = new Map();
+  g[0].forEach((r) => { if (!byM.has(r.month)) byM.set(r.month, {t: P(r.month)}); byM.get(r.month)[r.brand] = r.share_pct; });
+  const pts = Array.from(byM.values()).sort((a, b) => a.t - b.t);
+  const markers = g[1].filter((e) => e.on_chart).map((e) => ({tag: e.tag, t: P(e.month), title: e.title, detail: e.detail}));
+  const end = new Date(Math.max(+pts[pts.length - 1].t, ...markers.map((e) => +e.t)));
+  timeChart(el, {pts, aria: 'Line chart of each app\'s share of UPI volume, June 2020 to September 2026', h: 330, endLabels: true, sort: true, markers,
+    yDomain: [0, 60], yFmt: (v) => v + '%', xDomain: [pts[0].t, end],
+    lines: BRANDS.map((b, i) => ({label: b, color: b === 'All other' ? MUTED : col(i), get: (d) => d[b], fmt: (v) => F.n1(v) + '%'}))});
+});
+
+/* ---------- forecast ---------- */
+dash.draw('c-forecast', (el) => {
+  const g = gate(el, ['master', 'forecast']); if (!g) return;
+  const hist = masterPts().filter((d) => d.month >= '2023-10-01');
+  const last = hist[hist.length - 1];
+  const fc = g[1].slice().sort((a, b) => (a.month < b.month ? -1 : 1)).map((r) => ({t: P(r.month), fc: r.vol_bn, lo80: r.vol_bn_lo80, hi80: r.vol_bn_hi80, lo95: r.vol_bn_lo95, hi95: r.vol_bn_hi95}));
+  const pts = hist.map((d) => ({t: d.t, actual: d.vol_bn}));
+  pts[pts.length - 1].fc = last.vol_bn; pts[pts.length - 1].lo80 = pts[pts.length - 1].hi80 = pts[pts.length - 1].lo95 = pts[pts.length - 1].hi95 = last.vol_bn;
+  fc.forEach((d) => pts.push(d));
+  timeChart(el, {pts, aria: 'Line chart of monthly UPI volume in billions with a 12-month forecast and 80% and 95% ranges', h: 330, yFmt: (v) => v, xDomain: [pts[0].t, pts[pts.length - 1].t],
+    divider: last.t, dividerLabel: 'Forecast',
+    bands: [{lo: (d) => d.lo95, hi: (d) => d.hi95, color: col(1), opacity: 0.14}, {lo: (d) => d.lo80, hi: (d) => d.hi80, color: col(1), opacity: 0.28}],
+    lines: [{label: 'Actual', color: col(0), get: (d) => d.actual, fmt: (v) => F.n1(v) + ' billion'},
+            {label: 'Forecast (median)', color: col(1), get: (d) => d.fc, fmt: (v) => F.n1(v) + ' billion', noEnd: false}],
+    tipRows: (d) => {
+      if (d.actual != null && d.t.getTime() !== last.t.getTime()) return [{label: 'Actual', color: col(0), v: d.actual, fmt: (v) => F.n1(v) + ' billion'}];
+      if (d.t.getTime() === last.t.getTime()) return [{label: 'Actual', color: col(0), v: d.actual, fmt: (v) => F.n1(v) + ' billion'}];
+      return [{label: 'Forecast', color: col(1), v: d.fc, fmt: (v) => F.n1(v) + ' billion'},
+              {label: '80% range', color: col(1), text: F.n1(d.lo80) + ' to ' + F.n1(d.hi80)},
+              {label: '95% range', color: col(1), text: F.n1(d.lo95) + ' to ' + F.n1(d.hi95)}];
+    }});
+});
+dash.draw('t-forecast', (tb) => {
+  const rows = rowsOf('forecast'); if (!rows) return;
+  d3.select(tb).selectAll('tr').data(rows.slice().sort((a, b) => (a.month < b.month ? -1 : 1)), (d) => d.month).join('tr').attr('data-key', (d) => d.month)
+    .selectAll('td').data((d) => [fM(P(d.month)), F.t1(d.vol_bn), F.t1(d.vol_bn_lo80), F.t1(d.vol_bn_hi80), F.t0(d.ticket), F.t1(d.val_lc), F.t1(d.yoy_pct)]).join('td')
+    .attr('class', (t, i) => (i ? 'num' : '')).text((t) => t);
+});
+
+/* ---------- backtest ---------- */
+dash.draw('btchart', (el) => {
+  const g = gate(el, ['backtest']); if (!g) return;
+  const sel = document.getElementById('bt-h');
+  const H = +(sel ? sel.value : 12);
+  const rows = g[0].filter((r) => +r.h === H).sort((a, b) => a.mape_pct - b.mape_pct);
+  el.replaceChildren();
+  const w = Math.max(300, Math.floor(el.clientWidth) || 600);
+  const rh = 30;
+  const h = rows.length * rh + 28;
+  const wrap = d3.select(el).append('div').attr('class', 'u-plot');
+  const svg = wrap.append('svg').attr('viewBox', `0 0 ${w} ${h}`).attr('width', '100%').attr('height', h).attr('role', 'img')
+    .attr('aria-label', `Bar chart of forecast error by model, ${H} months ahead`);
+  const tip = wrap.append('div').attr('class', 'u-tip');
+  const name = (r) => r.model + (BASELINES.includes(r.model) ? ' (baseline)' : '');
+  const sgn = d3.format('+.1f');
+  const note = (r) => `${F.n1(r.mape_pct)}%  ·  bias ${sgn(r.bias_pct)}%`;
+  const meas = (strs) => { const t = svg.append('text').attr('class', 'u-tick').style('visibility', 'hidden'); let mx = 0; strs.forEach((s) => { t.text(s); mx = Math.max(mx, t.node().getComputedTextLength()); }); t.remove(); return mx; };
+  const m = {l: Math.ceil(meas(rows.map(name))) + 12, r: Math.ceil(meas(rows.map(note))) + 14, t: 6, b: 22};
+  const x = d3.scaleLinear([0, d3.max(rows, (r) => r.mape_pct)], [m.l, w - m.r]).nice();
+  const xt = x.ticks(4);
+  svg.append('g').attr('class', 'u-axis').selectAll('line.gr').data(xt).join('line').attr('class', 'gr').attr('x1', (d) => x(d)).attr('x2', (d) => x(d)).attr('y1', m.t).attr('y2', h - m.b);
+  svg.append('g').attr('class', 'u-axis').selectAll('text').data(xt).join('text').attr('x', (d) => x(d)).attr('y', h - 6).attr('text-anchor', 'middle').text((d) => d + '%');
+  const row = svg.selectAll('g.r').data(rows).join('g').attr('class', 'r').attr('transform', (d, i) => `translate(0,${m.t + i * rh})`);
+  row.append('text').attr('class', 'u-end').attr('x', m.l - 8).attr('y', rh / 2).attr('dy', '0.32em').attr('text-anchor', 'end').text(name);
+  row.append('rect').attr('x', m.l).attr('y', 6).attr('height', rh - 12).attr('width', (d) => Math.max(1, x(d.mape_pct) - m.l)).attr('rx', 2)
+    .style('fill', (d) => (d.model === USED_MODEL ? col(0) : MUTED));
+  row.append('text').attr('class', 'u-end').attr('x', (d) => x(d.mape_pct) + 8).attr('y', rh / 2).attr('dy', '0.32em').text(note);
+  row.append('rect').attr('x', 0).attr('width', w).attr('y', 0).attr('height', rh).style('fill', 'transparent')
+    .on('pointerenter pointermove pointerdown', (ev, d) => {
+      tip.selectAll('*').remove();
+      tip.append('div').attr('class', 'u-tip-h').text(name(d));
+      [['Mean absolute error', F.n1(d.mape_pct) + '%'], ['Bias', sgn(d.bias_pct) + '%'], ['Scaled error (MASE)', F.n2(d.mase)],
+       ['80% range covered actual', d.cover80_pct == null ? 'no range' : d.cover80_pct + '% of the time'], ['Test months', d.origins]].forEach(([k, v]) => {
+        const r = tip.append('div').attr('class', 'u-tip-r'); r.append('span').text(k); r.append('b').text(v);
+      });
+      const py = d3.pointer(ev, wrap.node())[1];
+      tip.style('left', Math.min(w - 250, Math.max(0, x(d.mape_pct) - 40)) + 'px').style('top', Math.max(0, py + 12) + 'px').style('opacity', 1);
+    }).on('pointerleave', () => tip.style('opacity', 0));
+});
+(function () {
+  const s = document.getElementById('bt-h');
+  if (s) s.addEventListener('change', () => dash.draw('btchart'));
+})();
+
+/* ---------- events ---------- */
+dash.draw('t-events', (tb) => {
+  const rows = rowsOf('events'); if (!rows) return;
+  const tr = d3.select(tb).selectAll('tr').data(rows.slice().sort((a, b) => (a.month < b.month ? -1 : 1)), (d) => d.tag).join('tr').attr('data-key', (d) => d.tag);
+  tr.selectAll('td').data((d) => [d.tag, fM(P(d.month)), d.title, d.status, d.detail]).join('td')
+    .attr('class', (t, i) => (i === 4 ? 'wide' : i === 1 ? 'nw' : null))
+    .each(function (t, i) {
+      const c = d3.select(this);
+      if (i === 3) c.selectAll('span').data([t]).join('span').attr('class', (s) => 'u-pill ' + s).text((s) => s);
+      else c.text(t);
+    });
+});
+</script>

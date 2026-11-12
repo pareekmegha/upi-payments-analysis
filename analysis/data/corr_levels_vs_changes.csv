@@ -1,0 +1,6 @@
+pair,levels_pearson,changes_spearman
+vol_mn vs val_cr,0.994,0.703
+banks_live vs vol_mn,0.984,0.185
+p2m_vol_share vs avg_ticket,-0.931,-0.134
+hhi vs vol_mn,0.09,0.283
+top2_share vs vol_mn,0.238,0.254
