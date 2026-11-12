@@ -2,7 +2,7 @@
 
 An end-to-end analysis of India's UPI payments data from NPCI, April 2019 to October 2026: cleaning, statistics, time series diagnostics, a 12-month forecast and an interactive dashboard.
 
-**Live dashboard:** {{PAGES_URL}}
+**Live dashboard:** https://megha9306.github.io/upi-payments-analysis/
 
 ## What I found
 
