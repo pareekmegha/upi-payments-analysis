@@ -1,9 +1,16 @@
 """Builds UPI_Dashboard.html: one self-contained file (data and d3 embedded) that opens offline by double-click.
-Run build_dashboard_data.py first, then this. Needs d3.min.js (v7.8.5) in this folder."""
+Run build_dashboard_data.py first, then this. Downloads d3 v7.8.5 on the first run if d3.min.js is missing.
+Also copies the result to ..\..\docs\index.html, which GitHub Pages serves."""
 import json
+import os
 import re
+import shutil
+import urllib.request
 
 HERE = "."
+D3_URL = "https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+if not os.path.exists(rf"{HERE}\d3.min.js"):
+    urllib.request.urlretrieve(D3_URL, rf"{HERE}\d3.min.js")
 page = open(rf"{HERE}\index.html", encoding="utf-8").read()
 d3 = open(rf"{HERE}\d3.min.js", encoding="utf-8").read()
 data = {k: json.load(open(rf"{HERE}\{f}.json", encoding="utf-8")) for k, f in
@@ -97,4 +104,6 @@ let _t; window.addEventListener('resize', () => {{ clearTimeout(_t); _t = setTim
 """
 with open(rf"{HERE}\UPI_Dashboard.html", "w", encoding="utf-8") as f:
     f.write(html)
-print("wrote UPI_Dashboard.html", round(len(html) / 1024), "KB")
+os.makedirs(r"..\..\docs", exist_ok=True)
+shutil.copy(rf"{HERE}\UPI_Dashboard.html", r"..\..\docs\index.html")
+print("wrote UPI_Dashboard.html and docs/index.html", round(len(html) / 1024), "KB")

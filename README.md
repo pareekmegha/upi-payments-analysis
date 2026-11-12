@@ -4,6 +4,8 @@ An end-to-end analysis of India's UPI payments data from NPCI, April 2019 to Oct
 
 **Live dashboard:** https://megha9306.github.io/upi-payments-analysis/
 
+![Dashboard preview](analysis/dashboard/dashboard_preview.png)
+
 ## What I found
 
 - **The falling average ticket is a mix effect.** The average payment fell from ₹1,817 to ₹1,238, but person-to-person tickets are flat (₹2,326 to ₹2,328) and merchant tickets rose (₹514 to ₹603). Merchant payments, which are smaller, grew from 45% to 63% of volume.
@@ -22,7 +24,7 @@ The full write-up, with confidence intervals and what the data cannot support, i
 | `Scraper/` | Raw NPCI responses (JSON) and the scripts that convert and clean them |
 | `cleaning/` | Cleaned datasets: product totals, P2P/P2M split, app volumes, and the app name map |
 | `analysis/` | Scripts `01` to `07`, result tables in `data/`, charts, and `FINDINGS.md` |
-| `analysis/dashboard/` | Dashboard source, data files and the build scripts |
+| `analysis/dashboard/` | Dashboard page source and the two build scripts |
 | `docs/` | The built dashboard, served by GitHub Pages |
 
 ## How the data was cleaned
@@ -48,7 +50,7 @@ python 07_forecast.py
 
 cd dashboard
 python build_dashboard_data.py
-python build_local_dashboard.py     # writes UPI_Dashboard.html (needs d3.min.js in this folder)
+python build_local_dashboard.py     # writes UPI_Dashboard.html and docs/index.html (downloads d3 if missing)
 ```
 
 The analysis reads the cleaned files in `cleaning/`. The earlier scripts in `Scraper/` (`convert_all.py`, `clean_product.py`, `clean_apps.py`, `clean_p2p.py`) produce those files from the raw data, but they assume the raw files sit beside them, so they need path adjustments to run from this layout. The script that originally downloaded the raw NPCI responses is not included.
@@ -62,7 +64,7 @@ The analysis reads the cleaned files in `cleaning/`. The earlier scripts in `Scr
 
 ## Data and attribution
 
-The data are public statistics published by the National Payments Corporation of India (NPCI). This repository is an independent analysis and is not affiliated with NPCI. Check NPCI's terms before reusing the raw data. `d3.min.js` (D3 v7.8.5, ISC licence) is included so the dashboard can be rebuilt offline.
+The data are public statistics published by the National Payments Corporation of India (NPCI). This repository is an independent analysis and is not affiliated with NPCI. Check NPCI's terms before reusing the raw data. The dashboard embeds D3 v7.8.5 (ISC licence), which the build script downloads on first run.
 
 ## Author
 
